@@ -14,12 +14,11 @@ def scraper():
 
 class TestScraper:
 
-    def test_open_page_logs_info(self, scraper, caplog):
-        with caplog.at_level(logging.INFO):
-            scraper.open_page("https://google.com")
-            assert "Navegando a la URL: https://google.com" in caplog.text
+    def test_open_page(self, scraper):
+        scraper.open_page("https://www.google.com")
+        assert scraper.driver.current_url == "https://www.google.com/"
 
-    def test_maximize_window_logs_info(self, scraper, caplog):
+    def test_maximize_window(self, scraper, caplog):
         scraper.open_page("https://google.com")
         with caplog.at_level(logging.INFO):
             scraper.maximize_window()
