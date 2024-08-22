@@ -7,7 +7,7 @@ import logging
 import time
 
 class Scraper:
-    def __init__(self, driver_path=None, headless=False):
+    def __init__(self, driver=None, driver_path=None, headless=False):
         self.logger = logging.getLogger(__name__)
         self.logger.info("Iniciando Scraper...")
 
@@ -16,12 +16,15 @@ class Scraper:
             chrome_options.add_argument("--headless")
             chrome_options.add_argument("--disable-gpu")
         
-        if driver_path:
-            self.driver_service = ChromeService(executable_path=driver_path)
+        if driver:
+            self.driver = driver
         else:
-            self.driver_service = ChromeService()
-
-        self.driver = webdriver.Chrome(service=self.driver_service, options=chrome_options)
+            if driver_path:
+                self.driver_service = ChromeService(executable_path=driver_path)
+            else:
+                self.driver_service = ChromeService()
+            self.driver = webdriver.Chrome(service=self.driver_service, options=chrome_options)
+        
         self.logger.info("Navegador iniciado correctamente.")
 
     def open_page(self, url):
