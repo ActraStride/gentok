@@ -3,11 +3,20 @@ import logging.config
 from unittest.mock import patch, MagicMock
 from settings import LOGGING_CONFIG
 from app.scraper.scraper import Scraper
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import (
+    TimeoutException, 
+    ElementClickInterceptedException, 
+    StaleElementReferenceException,
+    NoSuchElementException
+)
+
+
 
 # Configura logging
 logging.config.dictConfig(LOGGING_CONFIG)
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def scraper():
     # Crea un mock del WebDriver
     mock_driver = MagicMock()
@@ -74,5 +83,31 @@ class TestScraper:
 
 
     def test_get_element(self, scraper):
-        pass
+        # Configura un tipo de búsqueda y un locator
+        by = By.ID
+        locator = "example"
+        mock_element = MagicMock()
         
+        # Configura el mock del WebDriver para devolver un elemento simulado
+        scraper.driver.find_element.return_value = mock_element
+        
+        # Llama al método get_element
+        element = scraper.get_element(by, locator)
+        
+        # Verifica que se llamó a find_element con los parámetros correctos
+        scraper.driver.find_element.assert_called_once_with(by, locator)
+        
+        # Verifica que el elemento devuelto es el esperado
+        assert element == mock_element
+
+    
+    def test_get_element_timeout_exception(self, scraper):
+        # Configura el mock para lanzar una excepción TimeoutException
+        scraper.driver.find_element.side_effect = TimeoutException
+        
+        # Verifica que se lanza TimeoutException al buscar el elemento
+        with pytest.raises(TimeoutException):
+            scraper.get_element(By.ID, "example")
+
+    ## ESCRIBIR PARA EL RESTO DE CASOS DE EXCEPCIONES 
+
