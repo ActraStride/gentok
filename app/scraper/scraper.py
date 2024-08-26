@@ -9,7 +9,8 @@ from selenium.common.exceptions import (
     TimeoutException, 
     ElementClickInterceptedException, 
     StaleElementReferenceException,
-    NoSuchElementException
+    NoSuchElementException,
+    ElementNotInteractableException
 )
 from selenium.webdriver.common.by import By
 import logging
@@ -91,6 +92,36 @@ class Scraper:
         except Exception as e:
             self.logger.critical(f"Error inesperado al intentar hacer clic en el elemento: {str(e)}")
             raise
+
+    def fill_input(self, element, content):
+        try:
+            # Limpia el campo antes de escribir
+            element.clear()
+            
+            # Escribe el contenido en el campo de entrada
+            element.send_keys(content)
+        
+        except NoSuchElementException:
+            # Maneja el caso donde el elemento no se encuentra en la página
+            self.logger.error("El elemento de entrada no se encontró en la página.")
+            raise 
+        
+        except ElementNotInteractableException:
+            # Maneja el caso donde el elemento no es interactuable
+            self.logger.error("El elemento de entrada no es interactuable.")
+            raise 
+
+        except TimeoutException:
+            # Maneja el caso donde la operación tomó demasiado tiempo
+            self.logger.error("La operación tomó demasiado tiempo y falló por un timeout.")
+            raise 
+
+        except Exception as e:
+            # Maneja cualquier otra excepción que pueda ocurrir
+            self.logger.critical(f"Error al intentar rellenar el campo de entrada: {str(e)}")
+            raise 
+
+
 
     
 
