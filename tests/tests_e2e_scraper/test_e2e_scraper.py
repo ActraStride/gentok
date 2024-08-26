@@ -23,6 +23,7 @@ def scraper():
 
 @pytest.mark.e2e
 class TestScraperEndToEnd:
+
     def test_click_element(self, scraper):
         # Navega a la URL donde se encuentra el elemento
         url = "https://www.google.com/"
@@ -57,6 +58,7 @@ class TestScraperEndToEnd:
             # Cierra el navegador al final del test
             scraper.close_browser()
 
+
     def test_fill_input(self, scraper):
         # Navega a la URL donde se encuentra el elemento
         url = 'https://www.google.com/'
@@ -87,6 +89,24 @@ class TestScraperEndToEnd:
             # Maneja el caso donde la operación tomó demasiado tiempo
             pytest.fail("La operación tomó demasiado tiempo y falló por un timeout.", pytrace=True)
 
+        except Exception as e:
+            # Maneja cualquier otra excepción que pueda ocurrir
+            pytest.fail(f"Test falló debido a: {str(e)}", pytrace=True)
+
+
+    def test_get_html(self, scraper):
+        # Navega a la URL donde se encuentra el elemento
+        url = 'https://prep2015.ine.mx/Nacional/VotosPorPartido/'
+        scraper.open_page(url)
+
+        try:
+            
+            element = scraper.get_element(By.XPATH, '/html/body/div[2]/div[7]/div[1]/div/section/div/div/div/table[1]')
+
+            html = scraper.get_html(element)
+
+            assert html != None
+        
         except Exception as e:
             # Maneja cualquier otra excepción que pueda ocurrir
             pytest.fail(f"Test falló debido a: {str(e)}", pytrace=True)

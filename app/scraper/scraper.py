@@ -17,6 +17,7 @@ import logging
 import time
 
 class Scraper:
+
     def __init__(self, driver=None, driver_path=None, headless=False):
         self.logger = logging.getLogger(__name__)
         self.logger.info("Iniciando Scraper...")
@@ -37,22 +38,27 @@ class Scraper:
         
         self.logger.info("Navegador iniciado correctamente.")
 
+
     def open_page(self, url):
         self.logger.info(f"Navegando a la URL: {url}")
         self.driver.get(url)
 
+
     def maximize_window(self):
         self.logger.info("Maximizando ventana del navegador.")
         self.driver.maximize_window()                                   
+
 
     def close_browser(self):
         self.logger.info("Cerrando navegador.")
         self.driver.quit()
         self.driver = None  
 
+
     def wait(self, seconds):
         self.logger.info(f"Esperando {seconds} Segundos.")
         time.sleep(seconds)
+
 
     def get_element(self, by, locator, timeout=1):
         try:
@@ -93,6 +99,7 @@ class Scraper:
             self.logger.critical(f"Error inesperado al intentar hacer clic en el elemento: {str(e)}")
             raise
 
+
     def fill_input(self, element, content):
         try:
             # Limpia el campo antes de escribir
@@ -121,6 +128,21 @@ class Scraper:
             self.logger.critical(f"Error al intentar rellenar el campo de entrada: {str(e)}")
             raise 
 
+        
+    def get_html(self, element):
+        try:
+            # Intentar obtener el atributo outerHTML del elemento
+            element_html = element.get_attribute('outerHTML')
+            self.logger.info(f'Se obtuvo el Código: {element_html}')
+            return element_html
+        except AttributeError as e:
+            # Manejo específico para AttributeError si element no tiene el método get_attribute
+            self.logger.error(f'Error al obtener outerHTML del elemento: {e}')
+            return None
+        except Exception as e:
+            # Manejo general para otras excepciones posibles
+            self.logger.error(f'Error inesperado al obtener outerHTML del elemento: {e}')
+            return None
 
 
     
