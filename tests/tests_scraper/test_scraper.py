@@ -35,25 +35,21 @@ class TestScraper:
         assert scraper.driver.current_url == "https://www.google.com/"
 
 
-    def test_maximize_window(self, caplog):
-        mock_driver = MagicMock()
-        scraper = Scraper(mock_driver)
-        
+    def test_maximize_window(self, caplog, scraper):
+
         scraper.open_page("https://google.com")
         
         with caplog.at_level(logging.INFO):
             scraper.maximize_window()
             
             # Verifica que se llamó al método maximize_window
-            mock_driver.maximize_window.assert_called_once()
+            scraper.driver.maximize_window.assert_called_once()
             
             assert "Maximizando ventana del navegador." in caplog.text
 
 
 
-    def test_wait(self, caplog):
-        mock_driver = MagicMock()
-        scraper = Scraper(mock_driver)
+    def test_wait(self, caplog, scraper):
         
         scraper.open_page("https://google.com")
         
@@ -64,9 +60,7 @@ class TestScraper:
             assert "Esperando 2 Segundos." in caplog.text
 
 
-    def test_close_browser(self):
-        mock_driver = MagicMock()
-        scraper = Scraper(mock_driver)
+    def test_close_browser(self, scraper):
         
         scraper.open_page("https://google.com")
         scraper.wait(2)
