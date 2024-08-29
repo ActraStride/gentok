@@ -2,7 +2,7 @@
 
 import logging.config
 from settings import LOGGING_CONFIG
-from scraper.scraper import Scraper
+from app.scraper import Scraper
 
 # Configura logging
 logging.config.dictConfig(LOGGING_CONFIG)

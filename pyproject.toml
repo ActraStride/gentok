@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=64.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "your_package_name"  # Cambia esto por el nombre real de tu paquete
+version = "0.1.0"
+description = "A short description of your project"  # Añade una descripción breve de tu proyecto
+dependencies = [
+    "click >= 8.1.7",
+    "selenium >= 4.0.0",
+    "pytest >= 7.0.0",
+]
+
+[project.scripts]
+radex = "app.cli.cli:cli"  # Ajusta esto según el nombre de tu comando y la ubicación del archivo
+
+
+[tool.setuptools.packages]
+find = { include = ["app", "logs"] }

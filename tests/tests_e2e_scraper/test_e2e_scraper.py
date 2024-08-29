@@ -1,7 +1,7 @@
 import pytest
 import logging.config
 from settings import LOGGING_CONFIG
-from app.scraper.scraper import Scraper
+from app.scraper import Scraper
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (
     TimeoutException, 
