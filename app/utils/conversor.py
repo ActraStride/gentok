@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import json
 import logging
 
 # Configuración del logger
@@ -44,3 +45,16 @@ def table_to_list(html):
         # Loggear cualquier excepción que ocurra
         logger.error("Se produjo un error al procesar la tabla: %s", e)
         return None
+
+def list_to_x(list_table, outputFormat):
+    # Conversión a una lista de diccionarios
+    result = [
+        {f"col_{i+1}": value for i, value in enumerate(row)}
+        for row in list_table
+    ]
+
+    # Convertir a JSON
+    json_result = json.dumps(result, ensure_ascii=False, indent=4)
+    # Mostrar el JSON
+    return(json_result)
+

@@ -1,8 +1,9 @@
 import pytest
+import json
 import logging.config
 from unittest.mock import patch, MagicMock
 from settings import LOGGING_CONFIG
-from app.utils.conversor import table_to_list
+from app.utils.conversor import table_to_list, list_to_x
 
 # Configura logging
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -64,5 +65,31 @@ class TestConversor:
 
         assert output == expectedOutput
     
-    def hola(self):
-        pass
+    def test_list_to_x_json(self):
+        
+        list_input = [['', '', ''], ['Total de votos', '7,651,270', '10,660,241'], ['Porcentaje', '20.89%', '29.10%']]
+
+        expectedOutput = [
+			{
+				"col_1": "",
+				"col_2": "",
+				"col_3": ""
+			},
+			{
+				"col_1": "Total de votos",
+				"col_2": "7,651,270",
+				"col_3": "10,660,241"
+			},
+			{
+				"col_1": "Porcentaje",
+				"col_2": "20.89%",
+				"col_3": "29.10%"
+			}
+		]
+     
+
+        output = list_to_x(list_input, "JSON")
+        
+        expectedOutput = json.dumps(expectedOutput, sort_keys=True, indent=4)
+        
+        assert output == expectedOutput
