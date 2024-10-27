@@ -105,3 +105,6 @@ class TestScraper:
 
     ## ESCRIBIR PARA EL RESTO DE CASOS DE EXCEPCIONES 
 
+    def test_process_select(self, scraper):
+        pass
+

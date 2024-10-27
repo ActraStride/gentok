@@ -1,0 +1,7 @@
+https://prep2024.iepcjalisco.mx/
+
+ - BOTON QUE DESENCADENA LA CONSULTA DE RESULTADOS PRELIMINARES 
+    /html/body/app-root/div/app-inicio/div/div[4]/div[2]
+
+ - SELECT DE LOS DISTRITOS
+    //*[@id="dDisMun"]
