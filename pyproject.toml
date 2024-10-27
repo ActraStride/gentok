@@ -3,9 +3,9 @@
     build-backend = "setuptools.build_meta"
 
     [project]
-    name = "your_package_name"  # Cambia esto por el nombre real de tu paquete
+    name = "radex" 
     version = "0.1.0"
-    description = "A short description of your project"  # Añade una descripción breve de tu proyecto
+    description = "" 
     dependencies = [
         "click >= 8.1.7",
         "selenium >= 4.0.0",
