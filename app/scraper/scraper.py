@@ -16,6 +16,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 import logging
 import time
+# from app.utils.logging_setup import setup_logging
 
 class Scraper:
 

@@ -2,6 +2,10 @@
 
 import click
 from app.scraper import Scraper
+from app.utils import setup_logging
+
+# Configura el logging al iniciar la CLI
+setup_logging()
 
 # Definir un grupo de comandos. Esto permite agrupar múltiples comandos bajo un solo CLI.
 @click.group()

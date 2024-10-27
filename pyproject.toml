@@ -17,4 +17,4 @@
     radex = "app.cli.cli:cli"  # Ajusta esto según el nombre de tu comando y la ubicación del archivo
 
     [tool.setuptools.packages]
-    find = { include = ["app", "logs"] }
+    find = { include = ["app"] }
