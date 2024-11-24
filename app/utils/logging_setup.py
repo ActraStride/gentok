@@ -55,8 +55,9 @@ def setup_logging():
     if not logging.getLogger().hasHandlers():
         try:
             logging.config.dictConfig(LOGGING_CONFIG)
-            print(f"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            # print(f"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             logging.getLogger().info("Logging configurado correctamente.")
         except Exception as e:
-            print(f"Error configurando el logging: {e}")
+            pass
+            # print(f"Error configurando el logging: {e}")
 

@@ -14,7 +14,7 @@
     ]
 
     [project.scripts]
-    radex = "app.cli.cli:cli"  # Ajusta esto según el nombre de tu comando y la ubicación del archivo
+    radex = "app.cli.cli:radex"  # Ajusta esto según el nombre de tu comando y la ubicación del archivo
 
     [tool.setuptools.packages]
     find = { include = ["app"] }
