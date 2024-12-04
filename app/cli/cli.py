@@ -5,9 +5,12 @@ from app.scraper import Scraper
 from app.utils import setup_logging
 from app.cli.get_handlers import subprocess_functions
 from app.cli.validate import validate
+import logging
 
 # Configura el logging al iniciar la CLI
 setup_logging()
+
+logger = logging.getLogger(__name__)
 
 # Definir un grupo de comandos. Esto permite agrupar múltiples comandos bajo un solo CLI.
 @click.group()
@@ -17,15 +20,16 @@ def radex():
 
 # Definir un comando dentro del grupo CLI.
 @radex.command()
-def webos():
+def prueba():
     # Este comando imprimirá el mensaje '¿Apoco si mi todo pendejo?' cuando se ejecute.
-    click.echo('¿Apoco si mi todo pendejo?')
+    click.echo('¿Ya es navidad? 🎄🎇🎄')
 
 # Definir un comando dentro del grupo CLI.
 @radex.command()
-def hello():
+def scraper():
     #Este comando abrirá la web de 'https://www.google.com/'
     scraper = Scraper()
+    scraper.start_driver()
     scraper.open_page('https://www.google.com/')
 
 
@@ -47,14 +51,13 @@ def trae(process, state_tag, district_tag, grouping):
         }
 
         validate(**kwargs)
-
-        print('HURRA!')
+        
+        logger.info(f'Validado el comando con los parametros {kwargs}')
+        
         
         subprocess_functions[process](**kwargs)
-    except ValueError:
-        print(f"Error: El proceso '{process}' no es válido.")
-    except TypeError as e:
-        print(f"Error: El estado '{state_tag}' no tiene una función asociada. {e}")
+    except Exception as e:
+        logger.error(e)
 
 
 # Punto de entrada de la aplicación.

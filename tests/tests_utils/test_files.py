@@ -2,11 +2,11 @@ import pytest
 import json
 import logging.config
 from unittest.mock import patch, MagicMock
-from settings import LOGGING_CONFIG
+from app.utils import setup_logging
 from app.utils.files import save_json_to_file
 
 # Configura logging
-logging.config.dictConfig(LOGGING_CONFIG)
+setup_logging()
 
 
 class TestFiles:

@@ -1,6 +1,6 @@
 import pytest
 import logging.config
-from settings import LOGGING_CONFIG
+from app.utils import setup_logging
 from app.scraper import Scraper
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (
@@ -14,11 +14,11 @@ from selenium.common.exceptions import (
 
 
 # Configura logging
-logging.config.dictConfig(LOGGING_CONFIG)
+setup_logging()
 
 @pytest.fixture(autouse=True)
 def scraper():
-    return Scraper()
+    return Scraper(auto_start=True)
 
 
 @pytest.mark.e2e

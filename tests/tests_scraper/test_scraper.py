@@ -1,7 +1,7 @@
 import pytest
 import logging.config
 from unittest.mock import patch, MagicMock
-from settings import LOGGING_CONFIG
+from app.utils import setup_logging
 from app.scraper import Scraper
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (
@@ -13,8 +13,7 @@ from selenium.common.exceptions import (
 
 
 
-# Configura logging
-logging.config.dictConfig(LOGGING_CONFIG)
+setup_logging()
 
 @pytest.fixture(autouse=True)
 def scraper():
@@ -22,7 +21,7 @@ def scraper():
     mock_driver = MagicMock()
     # Configura un valor simulado para current_url
     mock_driver.current_url = "https://www.google.com/"
-    return Scraper(driver=mock_driver)
+    return Scraper(driver=mock_driver, auto_start=True)
 
 class TestScraper:
 

@@ -21,35 +21,48 @@ import time
 class Scraper:
 
     # Constructor que inicializa el scraper y configura el driver de Chrome.
-    def __init__(self, driver=None, driver_path=None, headless=False):
-        # Logger para rastrear la actividad del scraper.
+    def __init__(self, driver=None, driver_path=None, headless=False, auto_start=False):
+        """
+        Inicializa la clase Scraper, pero no el navegador a menos que `auto_start` sea True.
+        """
         self.logger = logging.getLogger(__name__)
         self.logger.info("Iniciando Scraper...")
 
-        # Configuración de opciones de Chrome.
+        self.driver = driver  # Almacena un controlador existente si se proporciona
+        self.driver_path = driver_path  # Ruta del driver (si aplica)
+        self.headless = headless  # Modo sin interfaz gráfica
+        self.driver_service = None  # Servicio de Chrome (inicializado más tarde)
+
+        # Si auto_start es True, inicia el navegador inmediatamente
+        if auto_start:
+            self.start_driver()
+        else:
+            self.logger.info("Navegador no iniciado automáticamente.")
+            
+
+    def start_driver(self):
+        """
+        Inicializa el navegador cuando sea necesario.
+        """
+        if self.driver:
+            self.logger.warning("El navegador ya está iniciado.")
+            return
+
         chrome_options = Options()
-        
-        # Si el parámetro 'headless' es True, configura Chrome para que se ejecute en modo headless (sin interfaz gráfica).
-        if headless:
+        if self.headless:
             chrome_options.add_argument("--headless")
             chrome_options.add_argument("--disable-gpu")
-        
-        # Si se proporciona un driver existente, se utiliza.
-        if driver:
-            self.driver = driver
+
+        # Configura el servicio de ChromeDriver
+        if self.driver_path:
+            self.driver_service = ChromeService(executable_path=self.driver_path)
         else:
-            # Si no se proporciona un driver, se inicia uno nuevo.
-            # Si se pasa 'driver_path', se utiliza esa ruta para el binario de ChromeDriver.
-            if driver_path:
-                self.driver_service = ChromeService(executable_path=driver_path)
-            else:
-                # Si no se proporciona 'driver_path', ChromeDriver se asume que está en el PATH.
-                self.driver_service = ChromeService()
-            
-            # Se inicializa el driver de Chrome con las opciones configuradas.
-            self.driver = webdriver.Chrome(service=self.driver_service, options=chrome_options)
-        
+            self.driver_service = ChromeService()  # Usa el PATH por defecto
+
+        self.driver = webdriver.Chrome(service=self.driver_service, options=chrome_options)
         self.logger.info("Navegador iniciado correctamente.")
+
+
 
     # Método para abrir una página web a partir de una URL.
     def open_page(self, url):

@@ -35,6 +35,9 @@ def validate(**kwargs):
 
         state_data = subprocess_data[input_state]
 
+        if input_district is None:
+            return True
+
         if input_district not in state_data:
             raise ValueError(f"El distrito '{input_district}' no es válido.")
     
